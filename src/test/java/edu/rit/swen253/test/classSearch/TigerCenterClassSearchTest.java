@@ -7,6 +7,7 @@ import edu.rit.swen253.page.tiger.TigerCenterHomePage;
 import edu.rit.swen253.test.AbstractWebTest;
 import edu.rit.swen253.utils.BrowserWindow;
 import edu.rit.swen253.utils.SeleniumUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -49,13 +50,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(3)
     @DisplayName("Perform Simple Search for A Valid Class Code within Fall Semester")
     void validCourseCodeSearch() {
-        // Refreshing due to randomly running into "class-search" angular view not found.
-        // even tried making one instance of the page class, and it randomly would nullify itself
-        // even though it was made within the global aspect of the class and assigned on the second ordered
-        // test.
-        SeleniumUtils.refresh();
-        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
-        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "SWEN 352");
+        this.searchPage = new TigerCenterClassSearchPage();
+        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "SWEN 352");
         sleep(2);
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
@@ -67,9 +63,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(4)
     @DisplayName("Perform Simple Search for A Valid Class Name within Fall Semester")
     void validCourseNameSearch() {
-        SeleniumUtils.refresh();
-        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
-        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "Software Testing");
+//        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
+        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "Software Testing");
         sleep(2);
         assertFalse(results.isEmpty());
         assertEquals(50, results.size());
@@ -81,23 +76,15 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(5)
     @DisplayName("Perform Simple Search for an Invalid Class Code within Fall Semester")
     void invalidCourseCodeSearch() {
-        SeleniumUtils.refresh();
-        sleep(1);
-        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
-        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "BLAT 132");
+        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "SW3N 999");
         sleep(2);
         assertTrue(results.isEmpty());
     }
-
     @Test
     @Order(6)
     @DisplayName("Perform Simple Search for an Invalid Class Name within Fall Semester")
     void invalidCourseNameSearch() {
-        SeleniumUtils.refresh();
-        sleep(1);
-        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
-
-        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "foobar");
+        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "foobar");
         sleep(2);
         assertTrue(results.isEmpty());
     }
