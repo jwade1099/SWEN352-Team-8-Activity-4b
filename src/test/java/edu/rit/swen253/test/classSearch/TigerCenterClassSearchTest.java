@@ -50,8 +50,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(3)
     @DisplayName("Perform Simple Search for A Valid Class Code within Fall Semester")
     void validCourseCodeSearch() {
-        this.searchPage = new TigerCenterClassSearchPage();
-        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "SWEN 352");
+        TigerCenterClassSearchPage searchPage = navigateToPage("https://tigercenter.rit.edu/tigerCenterApp/api/class-search", TigerCenterClassSearchPage::new);
+        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "SWEN 352");
         sleep(2);
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
@@ -64,7 +64,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @DisplayName("Perform Simple Search for A Valid Class Name within Fall Semester")
     void validCourseNameSearch() {
 //        TigerCenterClassSearchPage searchPage = new TigerCenterClassSearchPage();
-        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "Software Testing");
+        TigerCenterClassSearchPage searchPage = navigateToPage("https://tigercenter.rit.edu/tigerCenterApp/api/class-search", TigerCenterClassSearchPage::new);
+        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "Software Testing");
         sleep(2);
         assertFalse(results.isEmpty());
         assertEquals(50, results.size());
@@ -76,7 +77,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(5)
     @DisplayName("Perform Simple Search for an Invalid Class Code within Fall Semester")
     void invalidCourseCodeSearch() {
-        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "SW3N 999");
+        TigerCenterClassSearchPage searchPage = navigateToPage("https://tigercenter.rit.edu/tigerCenterApp/api/class-search", TigerCenterClassSearchPage::new);
+        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "SW3N 999");
         sleep(2);
         assertTrue(results.isEmpty());
     }
@@ -84,7 +86,8 @@ public class TigerCenterClassSearchTest extends AbstractWebTest {
     @Order(6)
     @DisplayName("Perform Simple Search for an Invalid Class Name within Fall Semester")
     void invalidCourseNameSearch() {
-        List<TCClassSearchResult> results = this.searchPage.submitSearch(CLASS_TERM.FALL24_25, "foobar");
+        TigerCenterClassSearchPage searchPage = navigateToPage("https://tigercenter.rit.edu/tigerCenterApp/api/class-search", TigerCenterClassSearchPage::new);
+        List<TCClassSearchResult> results = searchPage.submitSearch(CLASS_TERM.FALL24_25, "foobar");
         sleep(2);
         assertTrue(results.isEmpty());
     }
